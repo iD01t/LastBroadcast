@@ -1,0 +1,5 @@
+{
+  "name": "Last Broadcast GDD Explorer",
+  "description": "An interactive web-based explorer for the 'Last Broadcast' Game Design Document. Navigate scenes, uncover clues, and witness the branching narrative of a lone radio host's final night on air.",
+  "requestFramePermissions": []
+}
