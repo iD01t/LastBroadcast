@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { GAME_DATA } from './constants';
 import { GameState, Scene, Interactable, Dialogue, Choice, Ending } from './types';
@@ -6,6 +7,8 @@ import Journal from './components/Journal';
 import SuspicionMeter from './components/SuspicionMeter';
 import DialogueModal from './components/DialogueModal';
 import AchievementsDisplay from './components/AchievementsDisplay';
+import { IMAGE_ASSETS } from './image-assets';
+import { PowerIcon } from './components/Icons';
 
 const App: React.FC = () => {
     const [gameState, setGameState] = useState<GameState>('MainMenu');
@@ -18,6 +21,7 @@ const App: React.FC = () => {
     const [message, setMessage] = useState<string | null>(null);
     const [ending, setEnding] = useState<Ending | null>(null);
     const [isChangingScene, setIsChangingScene] = useState(false);
+    const [showStatic, setShowStatic] = useState(true);
 
     const showMessage = (text: string, duration: number = 3000) => {
         setMessage(text);
@@ -99,7 +103,6 @@ const App: React.FC = () => {
             const targetSceneId = hotspot.id.replace('door_', '');
             const targetScene = GAME_DATA.scenes.find(s => s.id === targetSceneId);
             if (targetScene) {
-                // Mock door lock logic
                 if (hotspot.id === 'door_office' && !inventory.includes('Back Office Key')) {
                     showMessage("It's locked.");
                     return;
@@ -167,9 +170,21 @@ const App: React.FC = () => {
     }, [clues, inventory, unlockAchievement, updateSuspicion, changeScene]);
 
 
-    const MainMenu = () => (
-        <div className="w-full h-full flex flex-col items-center justify-center bg-black text-amber-400 crt-effect">
-            <h1 className="text-8xl text-glow">LAST BROADCAST</h1>
+    const MainMenu = () => {
+      const bgStyle = {
+        backgroundImage: `url('${IMAGE_ASSETS['menu_bg.jpg']}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      };
+      
+      return (
+        <div 
+          className="w-full h-full flex flex-col items-center justify-center text-amber-400 crt-effect"
+          style={bgStyle}
+        >
+          <div className="absolute inset-0 bg-black/60 z-0"></div>
+          <div className="relative z-10 flex flex-col items-center justify-center text-center p-4">
+             <img src={IMAGE_ASSETS['logo_game.png']} alt="Last Broadcast" className="w-full max-w-2xl mb-4" />
             <h2 className="text-4xl text-glow-red">Final Master Edition GDD Explorer</h2>
             <button
                 onClick={handleStartGame}
@@ -177,22 +192,44 @@ const App: React.FC = () => {
             >
                 Start Broadcast
             </button>
+          </div>
         </div>
     );
+    }
 
-    const EndingScreen = () => (
-        <div className="w-full h-full flex flex-col items-center justify-center bg-black text-white crt-effect p-8 text-center">
-            <h1 className="text-7xl text-glow-red">{ending?.id}</h1>
-            <p className="text-2xl mt-8 max-w-3xl text-teal-300 leading-relaxed">{ending?.description}</p>
-            <button
-                onClick={() => setGameState('MainMenu')}
-                className="mt-12 px-8 py-4 text-3xl border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-black transition-all duration-300"
-            >
-                Return to Main Menu
-            </button>
-        </div>
+    const EndingScreen = () => {
+        const bgStyle = {
+            backgroundImage: `url('${IMAGE_ASSETS['credits_bg.jpg']}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+        };
+
+        return (
+            <div className="w-full h-full flex flex-col items-center justify-center text-white crt-effect p-8 text-center" style={bgStyle}>
+                <div className="absolute inset-0 bg-black/70 z-0"></div>
+                <div className="relative z-10">
+                    <h1 className="text-7xl text-glow-red">{ending?.id}</h1>
+                    <p className="text-2xl mt-8 max-w-3xl text-teal-300 leading-relaxed">{ending?.description}</p>
+                    <button
+                        onClick={() => setGameState('MainMenu')}
+                        className="mt-12 px-8 py-4 text-3xl border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-black transition-all duration-300"
+                    >
+                        Return to Main Menu
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    const StaticOverlay = () => (
+        <div 
+            className="fixed top-0 left-0 w-full h-full pointer-events-none z-50 opacity-10"
+            style={{
+                backgroundImage: `url('${IMAGE_ASSETS['static_noise.gif']}')`,
+                backgroundRepeat: 'repeat',
+            }}
+        ></div>
     );
-
 
     return (
         <main className="bg-gray-900 w-screen h-screen overflow-hidden font-mono">
@@ -202,6 +239,8 @@ const App: React.FC = () => {
                 </div>
             )}
             
+            {showStatic && <StaticOverlay />}
+
             {gameState === 'MainMenu' && <MainMenu />}
             {gameState === 'Ending' && <EndingScreen />}
 
@@ -215,7 +254,15 @@ const App: React.FC = () => {
                         <div className="flex-grow overflow-y-auto">
                            <Journal clues={clues} inventory={inventory} />
                         </div>
-                        <AchievementsDisplay unlocked={unlockedAchievements} />
+                        <div className="border-t-2 border-amber-500/50">
+                            <AchievementsDisplay unlocked={unlockedAchievements} />
+                        </div>
+                         <div className="border-t-2 border-amber-500/50 p-2">
+                             <button onClick={() => setShowStatic(!showStatic)} className="w-full flex items-center justify-center p-2 text-xl bg-gray-800/50 border-2 border-teal-500/50 hover:bg-teal-500/20 hover:text-teal-300 transition-colors duration-200">
+                                <PowerIcon className="w-6 h-6 mr-2" />
+                                Toggle Static: {showStatic ? 'ON' : 'OFF'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

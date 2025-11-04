@@ -1,6 +1,7 @@
 import React from 'react';
 import { Scene, Interactable } from '../types';
 import Hotspot from './Hotspot';
+import { IMAGE_ASSETS } from '../image-assets';
 
 interface SceneViewerProps {
   scene: Scene;
@@ -16,15 +17,29 @@ const SceneViewer: React.FC<SceneViewerProps> = ({ scene, onHotspotClick, suspic
     return '';
   };
 
+  const getGlowEffectClass = () => {
+    if (suspicion >= 75) {
+      return 'shadow-2xl shadow-red-500/50 animate-pulse';
+    }
+    if (suspicion >= 50) {
+      return 'shadow-2xl shadow-red-500/30';
+    }
+    return 'shadow-2xl shadow-amber-500/20';
+  };
+
   return (
-    <div className={`relative w-full h-full bg-black text-white border-4 border-amber-500/50 overflow-hidden shadow-2xl shadow-amber-500/20 transition-opacity duration-500 ease-in-out ${isChanging ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`relative w-full h-full bg-black text-white border-4 border-amber-500/50 overflow-hidden transition-all duration-500 ease-in-out ${isChanging ? 'opacity-0' : 'opacity-100'} ${getGlowEffectClass()}`}>
       <img
         key={scene.id}
-        src={`https://picsum.photos/id/${scene.backgroundId}/1280/720`}
+        src={IMAGE_ASSETS[scene.background]}
         alt={scene.title}
         className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out ${getSuspicionClass()}`}
       />
       <div className="absolute inset-0 bg-black/50"></div>
+
+      {/* Overlays for CRT effect */}
+      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: `url('${IMAGE_ASSETS['vignette_overlay.png']}')`, backgroundSize: '100% 100%' }}></div>
+      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: `url('${IMAGE_ASSETS['ui_frame.png']}')`, backgroundSize: '100% 100%' }}></div>
       
       {scene.interactables.map((hotspot) => (
         <Hotspot key={hotspot.id} hotspot={hotspot} onClick={onHotspotClick} />

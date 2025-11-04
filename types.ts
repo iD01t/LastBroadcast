@@ -10,7 +10,7 @@ export interface Scene {
   id: string;
   title: string;
   description: string;
-  backgroundId: string;
+  background: string;
   interactables: Interactable[];
 }
 

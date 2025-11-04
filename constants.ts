@@ -7,7 +7,7 @@ export const GAME_DATA: GameData = {
       id: "studio",
       title: "Radio Studio",
       description: "Warm amber glow from vintage audio equipment, deep shadows in the corners. A large window shows a rainy, empty street outside. The central mixing board is covered in dials and faders.",
-      backgroundId: "1079",
+      background: "scene_studio.jpg",
       interactables: [
         {id: "console", label: "Mixing Board", action: "start_broadcast", position: { top: "50%", left: "50%" }},
         {id: "mic", label: "Microphone", text: "It crackles faintly with latent energy.", position: { top: "60%", left: "20%" }},
@@ -19,7 +19,7 @@ export const GAME_DATA: GameData = {
       id: "hallway",
       title: "Hallway",
       description: "Long, oppressive hallway lit by a single, flickering fluorescent teal light. Doors to other rooms line the walls. Water stains on the ceiling tiles.",
-      backgroundId: "838",
+      background: "scene_hallway.jpg",
       interactables: [
         {id: "door_studio", label: "Door to Studio", action: "change_scene", position: { top: "50%", left: "10%" }},
         {id: "door_office", label: "Door to Back Office", action: "change_scene", locked: true, position: { top: "50%", left: "50%" }},
@@ -32,7 +32,7 @@ export const GAME_DATA: GameData = {
       id: "office",
       title: "Back Office",
       description: "Cluttered manager's office. A desk is piled with paperwork. A large, vintage safe sits against the back wall. A single desk lamp provides a pool of light.",
-      backgroundId: "173",
+      background: "scene_backoffice.jpg",
       interactables: [
         {id: "desk", label: "Desk", clue: "Finch's Personnel File. Hiring date: 10-26. The Archives Key is also here.", item_found: "Archives Key", position: { top: "50%", left: "50%" }},
         {id: "safe", label: "Safe", action: "puzzle_safe", position: { top: "60%", left: "80%" }},
@@ -44,7 +44,7 @@ export const GAME_DATA: GameData = {
       id: "archives",
       title: "Archives Room",
       description: "A dusty, forgotten room filled with shelves of tape reels and vinyl records. A single, bare bulb hangs from the ceiling, casting harsh shadows.",
-      backgroundId: "128",
+      background: "scene_archives.jpg",
       interactables: [
         {id: "tape_shelves", label: "Tape Shelves", item_found: "FINCH - FINAL BROADCAST - 10-26-78", position: { top: "60%", left: "40%" }},
         {id: "playback_deck", label: "Playback Deck", requires: "Fuse", action: "play_tape", position: { top: "50%", left: "70%" }},
@@ -56,7 +56,7 @@ export const GAME_DATA: GameData = {
       id: "control_room",
       title: "Broadcast Control Room",
       description: "The station's nerve center. Wall-to-wall racks of humming machinery, oscilloscopes with glowing green waves, and a large transmitter panel.",
-      backgroundId: "593",
+      background: "scene_controlroom.jpg",
       interactables: [
         {id: "transmitter", label: "Main Transmitter Panel", action: "final_confrontation", position: { top: "40%", left: "50%" }},
         {id: "maintenance_locker", label: "Maintenance Locker", item_found: "Fuse", position: { top: "70%", left: "20%" }},
@@ -68,7 +68,7 @@ export const GAME_DATA: GameData = {
       id: "basement",
       title: "Secret Basement",
       description: "A terrifying, unfinished basement. Dirt floor, stone walls. A single, primitive transmitter is set up in the corner, covered in esoteric symbols.",
-      backgroundId: "1003",
+      background: "scene_basement.jpg",
       interactables: [
         {id: "ritual_site", label: "Finch's Ritual Site", item_found: "Strange Tuning Fork", clue: "Finch's final maddened notes on tuning to the Anomaly's true frequency.", position: { top: "50%", left: "50%" }},
         {id: "door_hallway", label: "Back to Hallway", action: "change_scene", position: { top: "10%", left: "50%" }}
@@ -78,14 +78,14 @@ export const GAME_DATA: GameData = {
       id: "parkinglot",
       title: "Parking Lot / Escape",
       description: "The station's empty, rain-slicked parking lot at night. Your beat-up car is the only one there. The station's neon sign casts a lonely red glow.",
-      backgroundId: "1041",
+      background: "scene_parkinglot.jpg",
       interactables: []
     },
     {
       id: "anomaly_realm",
       title: "Signal Anomaly Realm",
       description: "An abstract, non-Euclidean space of shifting static, sound waves, and cosmic geometry. A visual representation of the Somnus Signal.",
-      backgroundId: "980",
+      background: "scene_signalrealm.jpg",
       interactables: []
     }
   ],
